@@ -1,26 +1,49 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Hero } from './hero';
-import { HEROES } from './mock-heroes';
+
 import { MessageService } from './message.service'
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable({providedIn: 'root'})
 export class HeroService {
 
-  constructor(private messageService: MessageService) { }
+  private heroesUrl = 'api/heroes'; // URL to web api
+  
+  constructor(private http: HttpClient,
+              private messageService: MessageService) { }
 
   getHero(id: number): Observable<Hero[]> {
-    // TODO: Send message after fetching the hero.
-    this.messageService.add(`Hero service: fetched hero with id=${id}`);
-    return of(HEROES.find((hero) => hero.id === id));
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.get<Hero[]>(url).pipe(
+      tap(_ => this.log(`fetched hero id=${id}`)),
+      catchError(this.handleError<Hero>(`getHero ${id}`))
+    );
   }
   
   getHeroes(): Observable<Hero[]> {
-    this.messageService.add('Hero Service: fetched heroes.');
-    return of(HEROES);
+    return this.http.get<Hero[]>(this.heroesUrl)
+      .pipe(
+        tap(_ => this.log('fetched heroes')),
+        catchError(this.handleError<Hero[]>('getHeroes', []))
+      );
   }
-  
+
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: Send error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: Better job of transforming error for user consumption.
+      this.log(`${operation} failed ${error.message}`)
+
+      return of(result as T);
+    }
+  }
+
+  private log(message: string) {
+    this.messageService.add(`HeroService: ${message}`)
+  }
 }
