@@ -23,6 +23,10 @@ export class HeroDetailComponent implements OnInit {
     this.getHero()
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+  
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id')
     
