@@ -39,11 +39,7 @@ const heroes = [
   { name: 'Tornado' }      
 ];
 
-const Hero = mongoose.model('Hero', HeroSchema)
+const Hero = mongoose.model('Hero', HeroSchema);
 
-async function make() {
-  const hero = new Hero(heroes[0])
-  await hero.save()
-}
-
-make()
+const hero = new Hero(heroes[0]);
+hero.save().then(hero => console.log(`Saved. ${hero.id}`));
