@@ -15,11 +15,50 @@ const port = config.port
 
 app.use(express.static(path.join(__dirname, 'dist/stays5')))
 
+app.use(express.json())
+
 app.get('/', (req, res, next) => {
-  res.send("Welcome. Hit /heroes/:id")
+  res.sendFile(path.join(__dirname, 'dist/stays5/index.html'))
 })
 
-app.get('/heroes/:id', (req, res, next) => {
+app.get('/dashboard', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'dist/stays5/index.html'))
+})
+
+app.put('/api/heroes', (req, res, next) => {
+  const heroIn = req.body
+  const id = heroIn.id
+
+  const heroFind = Hero.findById(id)
+  heroFind.then(hero => {
+    hero.name = heroIn.name
+    return hero.save()
+  }).then(hero => {
+    res.send(`Updated ${hero.name}`)
+  }).catch(err => {
+    next(`Error saving hero having id=${id}.`)
+  })
+})
+
+app.get('/api/heroes', (req, res, next) => {
+  const heroesFind = Hero.find()
+
+  heroesFind.then(heroes => {
+    res.json(heroes)
+  }).catch(err => next(err))
+})
+
+app.post('/api/heroes', (req, res, next) => {
+  const hero = new Hero(req.body)
+
+  console.log("hero json:", hero)
+
+  hero.save()
+    .then(hero => res.json(hero))
+    .catch(err => next(err))
+})
+
+app.get('/api/heroes/:id', (req, res, next) => {
   const id = req.params.id
 
   const hero = Hero.findById(id)
