@@ -1,45 +1,35 @@
 
+const path = require('path')
 const config = require('./server/config')
 require('./server/mongoose')
 const express = require('express')
+
+const Hero = require('./server/models/hero')
+
+// TODO: Move out of here.
+// require('./server/load-db')
 
 const app = express()
 
 const port = config.port
 
-app.use(express.static('dist/stays5'))
+app.use(express.static(path.join(__dirname, 'dist/stays5')))
 
-// app.get('/', (req, res) => res.send("Hello World!"))
-
-// app.listen(port, () => console.log(`Listening on port ${port}!`))
-
-const mongoose = require('mongoose')
-
-const HeroSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+app.get('/', (req, res, next) => {
+  res.send("Welcome. Hit /heroes/:id")
 })
 
-const heroes = [
-  { name: 'Mr. Nice' },
-  { name: 'Narco' },
-  { name: 'Bombasto' },
-  { name: 'Celeritas' },
-  { name: 'Magneta' },
-  { name: 'RubberMan' },
-  { name: 'Dynama' },
-  { name: 'Dr IQ' },
-  { name: 'Magma' },
-  { name: 'Tornado' }      
-];
+app.get('/heroes/:id', (req, res, next) => {
+  const id = req.params.id
 
-const Hero = mongoose.model('Hero', HeroSchema);
+  const hero = Hero.findById(id)
 
-const hero = new Hero(heroes[0]);
-hero.save().then(hero => console.log(`Saved. ${hero.id}`));
+  hero.then(hero => {
+    res.send(`Found ${hero.name}`)
+  }).catch(err => {
+    next(`Hero having id=${id} not found.`)
+  })
+})
+
+app.listen(port, () => console.log(`Listening on port ${port}!`))
+
