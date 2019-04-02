@@ -3,16 +3,19 @@ const path = require('path')
 const config = require('./config')
 require('./mongoose')
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const cons = require('consolidate')
+const csrf = require('csurf')
 const Hero = require('./models/hero')
 
 // TODO: Move out of here.
 // require('./server/load-db')
 
+/*
+ * Configure app and some middleware.
+ */
+
 const app = express()
-
-const port = config.port
-
 app.engine('mustache', cons.mustache)
 app.set('view engine', 'mustache')
 app.set('views', path.join(__dirname, './views'))
@@ -21,11 +24,23 @@ app.use(express.static(path.join(__dirname, '../dist/stays5')))
 
 app.use(express.json())
 
-app.get(/^\/((?!api).)*$/, (req, res, next) => {
-  res.render('index', { csrfToken: 'blah2' })
+app.use(cookieParser())
+
+const csrfProtection = csrf({ cookie: true })
+
+/*
+ * Default route.
+ */
+
+app.get(/^\/((?!api).)*$/, csrfProtection, (req, res, next) => {
+  res.render('index', { csrfToken: req.csrfToken() })
 })
 
-app.put('/api/heroes', (req, res, next) => {
+/*
+ * Begin API.
+ */
+
+app.put('/api/heroes', csrfProtection, (req, res, next) => {
   const heroIn = req.body
   const id = heroIn._id
 
@@ -49,7 +64,7 @@ app.get('/api/heroes', (req, res, next) => {
   }).catch(err => next(err))
 })
 
-app.post('/api/heroes', (req, res, next) => {
+app.post('/api/heroes', csrfProtection, (req, res, next) => {
   const hero = new Hero(req.body)
 
   console.log("hero json:", hero)
@@ -71,7 +86,7 @@ app.get('/api/heroes/:id', (req, res, next) => {
   })
 })
 
-app.delete('/api/heroes/:id', (req, res, next) => {
+app.delete('/api/heroes/:id', csrfProtection, (req, res, next) => {
   const id = req.params.id
 
   let foundHero = null
@@ -85,5 +100,8 @@ app.delete('/api/heroes/:id', (req, res, next) => {
   })
 })
 
-app.listen(port, () => console.log(`Listening on port ${port}!`))
+/*
+ * Launch server.
+ */
+app.listen(config.port, () => console.log(`Listening on port ${config.port}!`))
 
