@@ -7,15 +7,14 @@ const envVarsSchema = Joi.object({
     .default('development'),
   PORT: Joi.number()
     .default(4040),
-  MONGO_HOST: Joi.string().required()
-    .description("Mongo DB host url"),
+  MONGO_HOST: Joi.string()
+    .description("Mongo DB host url")
+    .default("mongodb://localhost/stays5dev"),
   MONGO_PORT: Joi.number()
     .default(27017)
 }).unknown().required()
 
 const { error, value: envVars } = Joi.validate(process.env, envVarsSchema);
-
-console.log(envVars);
 
 if(error) {
   throw new Error(`Config validation error: ${error.message}`)
