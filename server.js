@@ -81,10 +81,14 @@ app.get('/api/heroes/:id', (req, res, next) => {
 app.delete('/api/heroes/:id', (req, res, next) => {
   const id = req.params.id
 
-  Hero.remove({_id: id}).then((ok, n) => {
-    res.sendStatus(200)
+  let foundHero = null
+  Hero.find({_id: id}).then(hero => {
+    foundHero = hero
+    return Hero.deleteOne({_id: id})
+  }).then((ok, n) => {
+    res.json(foundHero)
   }).catch(err => {
-    next(`Hero having id=${id} not found.`)
+    next(`Delete hero with id=${id} failed.`)
   })
 })
 
