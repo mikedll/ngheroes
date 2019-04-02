@@ -35,7 +35,7 @@ app.get('/detail/:id', (req, res, next) => {
 
 app.put('/api/heroes', (req, res, next) => {
   const heroIn = req.body
-  const id = heroIn.id
+  const id = heroIn._id
 
   const heroFind = Hero.findById(id)
   heroFind.then(hero => {
