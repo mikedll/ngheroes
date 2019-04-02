@@ -3,7 +3,7 @@ const path = require('path')
 const config = require('./config')
 require('./mongoose')
 const express = require('express')
-
+const cons = require('consolidate')
 const Hero = require('./models/hero')
 
 // TODO: Move out of here.
@@ -13,13 +13,16 @@ const app = express()
 
 const port = config.port
 
-const distDir = path.join(__dirname, '../dist/stays5')
-app.use(express.static(distDir))
+app.engine('mustache', cons.mustache)
+app.set('view engine', 'mustache')
+app.set('views', path.join(__dirname, './views'))
+
+app.use(express.static(path.join(__dirname, '../dist/stays5')))
 
 app.use(express.json())
 
 app.get(/^\/((?!api).)*$/, (req, res, next) => {
-  res.sendFile(path.join(distDir, 'index.html'))
+  res.render('index', { csrfToken: 'blah2' })
 })
 
 app.put('/api/heroes', (req, res, next) => {
