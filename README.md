@@ -2,9 +2,15 @@
 
 Hotel management application.
 
-## Development server
+## Development
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm run-script watch` for watched app changes (in Angular).
+
+Run `npm start` to start the node server. Navigate to `http://localhost:4040/`.
+
+Hot reloading doesn't work right now.
+
+If dist/index.html changes significantly, you have to update the mustache template (`server/views/index.mustache`) to hold its changes.
 
 ## Code scaffolding
 
