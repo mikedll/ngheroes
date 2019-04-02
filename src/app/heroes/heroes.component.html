@@ -13,8 +13,8 @@
 
 <ul class="heroes">
   <li *ngFor="let hero of heroes">
-    <a routerLink="/detail/{{hero.id}}">
-      <span class="badge">{{hero.id}}</span>
+    <a routerLink="/detail/{{hero._id}}">
+      <span class="badge" title="{{hero._id}}">{{hero._id.substring(0,2) + '...'}}</span>
       {{hero.name}}
     </a>
     <button class="delete" title="delete hero" (click)="delete(hero)">x</button>
