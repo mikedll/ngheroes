@@ -1,10 +1,10 @@
 
 const path = require('path')
-const config = require('./server/config')
-require('./server/mongoose')
+const config = require('./config')
+require('./mongoose')
 const express = require('express')
 
-const Hero = require('./server/models/hero')
+const Hero = require('./models/hero')
 
 // TODO: Move out of here.
 // require('./server/load-db')
@@ -13,24 +13,24 @@ const app = express()
 
 const port = config.port
 
-app.use(express.static(path.join(__dirname, 'dist/stays5')))
+app.use(express.static(path.join(__dirname, '../dist/stays5')))
 
 app.use(express.json())
 
 app.get('/', (req, res, next) => {
-  res.sendFile(path.join(__dirname, 'dist/stays5/index.html'))
+  res.sendFile(path.join(__dirname, '../dist/stays5/index.html'))
 })
 
 app.get('/dashboard', (req, res, next) => {
-  res.sendFile(path.join(__dirname, 'dist/stays5/index.html'))
+  res.sendFile(path.join(__dirname, '../dist/stays5/index.html'))
 })
 
 app.get('/heroes', (req, res, next) => {
-  res.sendFile(path.join(__dirname, 'dist/stays5/index.html'))
+  res.sendFile(path.join(__dirname, '../dist/stays5/index.html'))
 })
 
 app.get('/detail/:id', (req, res, next) => {
-  res.sendFile(path.join(__dirname, 'dist/stays5/index.html'))
+  res.sendFile(path.join(__dirname, '../dist/stays5/index.html'))
 })
 
 app.put('/api/heroes', (req, res, next) => {
