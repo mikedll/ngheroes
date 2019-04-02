@@ -39,7 +39,7 @@ app.put('/api/heroes', (req, res, next) => {
 
   const heroFind = Hero.findById(id)
   heroFind.then(hero => {
-    hero.name = heroIn.name
+    hero.set(heroIn)
     return hero.save()
   }).then(hero => {
     res.send(`Updated ${hero.name}`)
@@ -69,10 +69,20 @@ app.post('/api/heroes', (req, res, next) => {
 app.get('/api/heroes/:id', (req, res, next) => {
   const id = req.params.id
 
-  const hero = Hero.findById(id)
+  const heroFind = Hero.findById(id)
 
-  hero.then(hero => {
+  heroFind.then(hero => {
     res.json(hero)
+  }).catch(err => {
+    next(`Hero having id=${id} not found.`)
+  })
+})
+
+app.delete('/api/heroes/:id', (req, res, next) => {
+  const id = req.params.id
+
+  Hero.remove({_id: id}).then((ok, n) => {
+    res.sendStatus(200)
   }).catch(err => {
     next(`Hero having id=${id} not found.`)
   })
