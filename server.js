@@ -49,7 +49,9 @@ app.put('/api/heroes', (req, res, next) => {
 })
 
 app.get('/api/heroes', (req, res, next) => {
-  const heroesFind = Hero.find()
+  const term = req.query.name
+  console.log("search", term ? { name: RegExp(term) } : {})
+  const heroesFind = Hero.find(term ? { name: RegExp(term) } : {})
 
   heroesFind.then(heroes => {
     res.json(heroes)
