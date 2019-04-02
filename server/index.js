@@ -13,24 +13,13 @@ const app = express()
 
 const port = config.port
 
-app.use(express.static(path.join(__dirname, '../dist/stays5')))
+const distDir = path.join(__dirname, '../dist/stays5')
+app.use(express.static(distDir))
 
 app.use(express.json())
 
-app.get('/', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../dist/stays5/index.html'))
-})
-
-app.get('/dashboard', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../dist/stays5/index.html'))
-})
-
-app.get('/heroes', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../dist/stays5/index.html'))
-})
-
-app.get('/detail/:id', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../dist/stays5/index.html'))
+app.get(/^\/((?!api).)*$/, (req, res, next) => {
+  res.sendFile(path.join(distDir, 'index.html'))
 })
 
 app.put('/api/heroes', (req, res, next) => {
@@ -50,7 +39,6 @@ app.put('/api/heroes', (req, res, next) => {
 
 app.get('/api/heroes', (req, res, next) => {
   const term = req.query.name
-  console.log("search", term ? { name: RegExp(term) } : {})
   const heroesFind = Hero.find(term ? { name: RegExp(term) } : {})
 
   heroesFind.then(heroes => {
