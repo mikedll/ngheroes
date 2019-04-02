@@ -25,6 +25,14 @@ app.get('/dashboard', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'dist/stays5/index.html'))
 })
 
+app.get('/heroes', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'dist/stays5/index.html'))
+})
+
+app.get('/detail/:id', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'dist/stays5/index.html'))
+})
+
 app.put('/api/heroes', (req, res, next) => {
   const heroIn = req.body
   const id = heroIn.id
@@ -64,7 +72,7 @@ app.get('/api/heroes/:id', (req, res, next) => {
   const hero = Hero.findById(id)
 
   hero.then(hero => {
-    res.send(`Found ${hero.name}`)
+    res.json(hero)
   }).catch(err => {
     next(`Hero having id=${id} not found.`)
   })
