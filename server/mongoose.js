@@ -1,9 +1,13 @@
 const config = require('./config')
 const mongoose = require('mongoose')
 
-const mongoUri = config.mongo.host;
-mongoose.connect(mongoUri, { keepAlive: 1, useNewUrlParser: true });
+mongoose.connect(config.mongo.uri, config.mongo.connectionOpts)
+
+mongoose.connection.on('connected', () => {
+  console.log(`Connected to database ${config.mongo.uri}`)
+});
+
 mongoose.connection.on('error', () => {
-  throw new Error(`unable to connect to database ${mongoUri}`)
+  throw new Error(`error occurred in database ${config.mongo.uri}`)
 });
 

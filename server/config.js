@@ -9,9 +9,12 @@ const envVarsSchema = Joi.object({
     .default(4040),
   MONGO_HOST: Joi.string()
     .description("Mongo DB host url")
-    .default("mongodb://localhost/stays5dev"),
+    .default("localhost"),
   MONGO_PORT: Joi.number()
-    .default(27017)
+    .default(27017),
+  MONGO_DATABASE: Joi.string()
+    .description("Mongo database name")
+    .default("stays5dev")
 }).unknown().required()
 
 const { error, value: envVars } = Joi.validate(process.env, envVarsSchema);
@@ -24,8 +27,8 @@ const config = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   mongo: {
-    host: envVars.MONGO_HOST,
-    port: envVars.MONGO_PORT
+    uri: envVars.MONGODB_URI || `mongodb://${envVars.MONGO_HOST}:${envVars.MONGO_PORT}/${envVars.MONGO_DATABASE}`,
+    connectionOpts: { useNewUrlParser: true }
   }
 }
 
