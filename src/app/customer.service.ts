@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Meta } from '@angular/platform-browser'
 import { Observable, of } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
+import { Customer } from './customer'
+import { MessageService } from './message.service'
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +14,12 @@ export class CustomerService {
 
   private customersUrl = 'api/customers';
 
-  httpOptions: {}
+  private csrfToken: string
+  
+  private httpOptions: {}
   
   constructor(private http: HttpClient,
+              private messageService: MessageService,
               private meta: Meta) {
     this.csrfToken = meta.getTag('name="csrf-token"').content
     this.httpOptions = {
@@ -27,7 +32,7 @@ export class CustomerService {
 
   addCustomer(customer: Customer): Observable<Customer> {
     return this.http.post<Customer>(this.customersUrl, customer, this.httpOptions).pipe(
-      tap((newCustomer: Customer) => this.log(`added customer w/ id=${}`)),
+      tap((newCustomer: Customer) => this.log(`added customer w/ id=${customer._id}`)),
       catchError(this.handleError<Customer>('addCustomer'))
     );
   }

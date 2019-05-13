@@ -13,10 +13,10 @@ export class HeroService {
 
   private heroesUrl = 'api/heroes'; // URL to web api
 
-  csrfToken: string
+  private csrfToken: string
 
-  httpOptions: {}
-  
+  private httpOptions: {}
+
   constructor(private http: HttpClient,
               private messageService: MessageService,
               private meta: Meta) {
