@@ -6,7 +6,11 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const cons = require('consolidate')
 const csrf = require('csurf')
+
 const Hero = require('./models/hero')
+const Room = require('./models/room')
+const Customer = require('./models/customer')
+const Reservation = require('./models/reservation')
 
 // TODO: Move out of here.
 // require('./server/load-db')
@@ -66,8 +70,6 @@ app.get('/api/heroes', (req, res, next) => {
 
 app.post('/api/heroes', csrfProtection, (req, res, next) => {
   const hero = new Hero(req.body)
-
-  console.log("hero json:", hero)
 
   hero.save()
     .then(hero => res.json(hero))
