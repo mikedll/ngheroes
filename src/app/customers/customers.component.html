@@ -2,6 +2,17 @@
 
 <ul>
   <li *ngFor="let customer of customers">
-    <div>{{customer.firstName}}</div>
+    <div>{{customer.firstName}} {{customer.lastName}}</div>
   </li>
 </ul>
+
+<div>
+  <h3>New Customer
+  </h3>
+
+  <form #customerForm="ngForm">
+    <input [(ngModel)]="firstName" name="firstName" placeholder="First name" />
+    <input [(ngModel)]="lastName" name="lastName" placeholder="Last name" />
+    <button (click)="addCustomer()">Add</button>
+  </form>
+</div>

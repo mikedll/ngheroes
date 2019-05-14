@@ -22,7 +22,7 @@ export class CustomerService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })
-    };    
+    };
   }
 
   addCustomer(customer: Customer): Observable<Customer> {
