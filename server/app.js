@@ -13,9 +13,6 @@ const Room = require('./models/room')
 const Customer = require('./models/customer')
 const Reservation = require('./models/reservation')
 
-// TODO: Move out of here.
-// require('./server/load-db')
-
 /*
  * Configure app and some middleware.
  */
@@ -28,7 +25,7 @@ app.set('views', path.join(__dirname, './views'))
 app.use(cookieParser())
 app.use(csrf({ cookie: true }))
 
-// filter with a better regex, to catch only index.
+// filter with a better regex, to catch only index?
 app.get(/^\/$/, (req, res, next) => {
   res.cookie('XSRF-TOKEN', req.csrfToken())
   next()
@@ -112,7 +109,7 @@ app.delete('/api/heroes/:id', (req, res, next) => {
 app.get('/api/customers', (req, res, next) => {
   const term = req.query.name
 
-  Customer.find(term ? { name: RegExp(term) } : {}).then(customers => {
+  Customer.find(term ? {} : {}).then(customers => {
     res.json(customers)
   }).catch(err => next(err))
 })
@@ -123,6 +120,23 @@ app.post('/api/customers', (req, res, next) => {
   customer
     .save()
     .then(customer => res.json(customer))
+    .catch(err => next(err))
+})
+
+app.get('/api/rooms', (req, res, next) => {
+  const term = req.query.name
+
+  Room.find(term ? { number: RegExp(term) } : {}).then(rooms => {
+    res.json(rooms)
+  }).catch(err => next(err))
+})
+
+app.post('/api/rooms', (req, res, next) => {
+  const room = new Room(req.body)
+
+  room
+    .save()
+    .then(room => res.json(room))
     .catch(err => next(err))
 })
 

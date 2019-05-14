@@ -1,20 +1,13 @@
 
-const Hero = require('./models/hero')
+const Room = require('./models/room')
 
-const heroes = [
-  { name: 'Mr. Nice' },
-  { name: 'Narco' },
-  { name: 'Bombasto' },
-  { name: 'Celeritas' },
-  { name: 'Magneta' },
-  { name: 'RubberMan' },
-  { name: 'Dynama' },
-  { name: 'Dr IQ' },
-  { name: 'Magma' },
-  { name: 'Tornado' }      
-];
+const rooms = [
+  '103', '104', '105',
+  '202', '203', '204',
+  '301', '302', '303', '304'
+]
 
-heroes.forEach(params => {
-  const newHero = new Hero(params);
-  newHero.save().then(hero => console.log(`Saved ${hero.name}`))
+rooms.forEach(roomNumber => {
+  const newRoom = new Room({number: roomNumber});
+  newRoom.save().then(room => console.log(`Saved ${room.number}`))
 })
