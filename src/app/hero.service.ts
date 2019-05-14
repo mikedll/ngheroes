@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Meta } from '@angular/platform-browser';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Hero } from './hero';
 
@@ -13,19 +12,14 @@ export class HeroService {
 
   private heroesUrl = 'api/heroes'; // URL to web api
 
-  private csrfToken: string
-
   private httpOptions: {}
 
   constructor(private http: HttpClient,
-              private messageService: MessageService,
-              private meta: Meta) {
+              private messageService: MessageService) {
     
-    this.csrfToken = meta.getTag('name="csrf-token"').content
     this.httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'CSRF-Token': this.csrfToken
+        'Content-Type': 'application/json'
       })
     };
     

@@ -24,27 +24,33 @@ app.engine('mustache', cons.mustache)
 app.set('view engine', 'mustache')
 app.set('views', path.join(__dirname, './views'))
 
+app.use(cookieParser())
+app.use(csrf({ cookie: true }))
+
+// filter with a better regex, to catch only index.
+app.get(/^\/$/, (req, res, next) => {
+  res.cookie('XSRF-TOKEN', req.csrfToken())
+  next()
+})
+
 app.use(express.static(path.join(__dirname, '../dist/stays5')))
 
 app.use(express.json())
-
-app.use(cookieParser())
-
-const csrfProtection = csrf({ cookie: true })
 
 /*
  * Default route.
  */
 
-app.get(/^\/((?!api).)*$/, csrfProtection, (req, res, next) => {
-  res.render('index', { csrfToken: req.csrfToken() })
+app.get(/^\/((?!api).)*$/, (req, res, next) => {
+  res.cookie('XSRF-TOKEN', req.csrfToken())
+  res.render('index')
 })
 
 /*
  * Begin API.
  */
 
-app.put('/api/heroes', csrfProtection, (req, res, next) => {
+app.put('/api/heroes', (req, res, next) => {
   const heroIn = req.body
   const id = heroIn._id
 
@@ -68,7 +74,7 @@ app.get('/api/heroes', (req, res, next) => {
   }).catch(err => next(err))
 })
 
-app.post('/api/heroes', csrfProtection, (req, res, next) => {
+app.post('/api/heroes', (req, res, next) => {
   const hero = new Hero(req.body)
 
   hero.save()
@@ -88,7 +94,7 @@ app.get('/api/heroes/:id', (req, res, next) => {
   })
 })
 
-app.delete('/api/heroes/:id', csrfProtection, (req, res, next) => {
+app.delete('/api/heroes/:id', (req, res, next) => {
   const id = req.params.id
 
   let foundHero = null

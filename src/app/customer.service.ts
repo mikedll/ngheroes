@@ -1,7 +1,6 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Meta } from '@angular/platform-browser'
 import { Observable, of } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
 import { Customer } from './customer'
@@ -14,18 +13,14 @@ export class CustomerService {
 
   private customersUrl = 'api/customers';
 
-  private csrfToken: string
-  
   private httpOptions: {}
   
   constructor(private http: HttpClient,
-              private messageService: MessageService,
-              private meta: Meta) {
-    this.csrfToken = meta.getTag('name="csrf-token"').content
+              private messageService: MessageService) {
+    
     this.httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'CSRF-Token': this.csrfToken
       })
     };    
   }
