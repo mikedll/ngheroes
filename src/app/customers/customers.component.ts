@@ -1,5 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms'
 import { Customer } from '../customer'
 import { CustomerService } from '../customer.service'
 
@@ -12,9 +13,9 @@ export class CustomersComponent implements OnInit {
 
   private customers: Customer[] = []
 
-  firstName: string
-  lastName: string
-  
+  firstName = new FormControl('');
+  lastName = new FormControl('');
+
   constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
@@ -23,11 +24,15 @@ export class CustomersComponent implements OnInit {
 
   addCustomer() {
     const customer = new Customer()
-    customer.firstName = this.firstName
-    customer.lastName = this.lastName
+    customer.firstName = this.firstName.value
+    customer.lastName = this.lastName.value
     
     this.customerService.addCustomer(customer)
-      .subscribe((customer) => this.customers.push(customer))
+      .subscribe((customer) => {
+        this.firstName.setValue('')
+        this.lastName.setValue('')        
+        this.customers.push(customer)
+      })
   }
   
   getCustomers() {

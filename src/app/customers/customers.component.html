@@ -10,9 +10,9 @@
   <h3>New Customer
   </h3>
 
-  <form #customerForm="ngForm">
-    <input [(ngModel)]="firstName" name="firstName" placeholder="First name" />
-    <input [(ngModel)]="lastName" name="lastName" placeholder="Last name" />
+  <form>
+    <input type="text" [formControl]="firstName" placeholder="First name" />
+    <input type="text" [formControl]="lastName" placeholder="Last name" />
     <button (click)="addCustomer()">Add</button>
   </form>
 </div>
