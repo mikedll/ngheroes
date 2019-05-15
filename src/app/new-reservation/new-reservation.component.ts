@@ -6,6 +6,7 @@ import { RoomService } from '../room.service'
 import { Customer } from '../customer'
 import { Room } from '../room'
 
+declare let $: any;
 
 @Component({
   selector: 'app-new-reservation',
@@ -31,6 +32,7 @@ export class NewReservationComponent implements OnInit {
 
   ngOnInit() {
     this.getInitData()
+    $('input[formcontrolname=startAt], input[formcontrolname=endAt]').datepicker()
   }
 
   onSave() {
