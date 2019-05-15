@@ -19,8 +19,8 @@ export class NewReservationComponent implements OnInit {
 
   reservationForm = this.fb.group({
     'room': ['', Validators.required],
-    'startAt': [''],
-    'endAt': [''],
+    'startAt': ['', Validators.required],
+    'endAt': ['', Validators.required],
     'customer': ['', Validators.required]
   })
   
@@ -38,8 +38,6 @@ export class NewReservationComponent implements OnInit {
   }
   
   displayName() {
-    console.log(typeof(this.customer))
-    console.log(typeof(this.customer.displayName))
     return this.customer ? this.customer.displayName() : ''
   }
   
