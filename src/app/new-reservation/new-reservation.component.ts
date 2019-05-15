@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
-import { FormBuilder } from '@angular/forms'
+import { FormBuilder, Validators } from '@angular/forms'
 import { CustomerService } from '../customer.service'
 import { RoomService } from '../room.service'
 import { Customer } from '../customer'
@@ -18,10 +18,10 @@ export class NewReservationComponent implements OnInit {
   customer: Customer
 
   reservationForm = this.fb.group({
-    'room': [''],
+    'room': ['', Validators.required],
     'startAt': [''],
     'endAt': [''],
-    'customer': ['']
+    'customer': ['', Validators.required]
   })
   
   constructor(private fb: FormBuilder,
