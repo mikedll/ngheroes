@@ -25,6 +25,12 @@ export class CustomerService {
     };
   }
 
+  updateCustomer(customer: Customer): Observable<any> {
+    return this.http.put<Customer>(this.customersUrl, customer, this.httpOptions).pipe(
+      tap(_ => this.log(`updated customer w/ id=${customer._id}`)),
+      catchError(this.handleError<any>('updateCustomer')))
+  }
+  
   addCustomer(customer: Customer): Observable<Customer> {
     return this.http.post<Customer>(this.customersUrl, customer, this.httpOptions).pipe(
       tap((newCustomer: Customer) => this.log(`added customer w/ id=${customer._id}`)),

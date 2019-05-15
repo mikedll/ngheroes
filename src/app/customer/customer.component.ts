@@ -27,6 +27,10 @@ export class CustomerComponent implements OnInit {
   }
 
   onSave() {
+    this.customer.firstName = this.customerForm.value.firstName
+    this.customer.lastName = this.customerForm.value.lastName
+    this.customerService.updateCustomer(this.customer)
+      .subscribe(_ => {})
   }
   
   getCustomer() {

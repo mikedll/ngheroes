@@ -2,7 +2,7 @@
 
 const path = require('path')
 const config = require('./config')
-
+const _ = require('underscore')
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const cons = require('consolidate')
@@ -112,6 +112,18 @@ app.get('/api/customers', (req, res, next) => {
   Customer.find(term ? {} : {}).then(customers => {
     res.json(customers)
   }).catch(err => next(err))
+})
+
+app.put('/api/customers', (req, res, next) => {
+  const customerIn = req.body
+  const id = customerIn._id
+
+  Customer.findById(id).then(customer => {
+    customer.set(_.pick(customerIn, 'firstName', 'lastName'))
+    return customer.save()
+  }).then(customer => {
+    res.send(`Updated customer ${customer._id}`)
+  }).catch(err => next(`Error saving customer having id=${id}`))
 })
 
 app.get('/api/customers/:id', (req, res, next) => {
