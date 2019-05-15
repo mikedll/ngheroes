@@ -26,7 +26,7 @@ export class CustomerService {
   }
 
   updateCustomer(customer: Customer): Observable<any> {
-    return this.http.put<Customer>(this.customersUrl, customer, this.httpOptions).pipe(
+    return this.http.put(this.customersUrl, customer, {headers: this.httpOptions, responseType: 'text'}).pipe(
       tap(_ => this.log(`updated customer w/ id=${customer._id}`)),
       catchError(this.handleError<any>('updateCustomer')))
   }
