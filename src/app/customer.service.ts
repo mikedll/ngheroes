@@ -13,26 +13,18 @@ export class CustomerService {
 
   private customersUrl = 'api/customers';
 
-  private httpOptions: {}
-  
   constructor(private http: HttpClient,
-              private messageService: MessageService) {
-    
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    };
+              private messageService: MessageService) {    
   }
 
   updateCustomer(customer: Customer): Observable<any> {
-    return this.http.put(this.customersUrl, customer, {headers: this.httpOptions, responseType: 'text'}).pipe(
+    return this.http.put(this.customersUrl, customer, {responseType: 'text'}).pipe(
       tap(_ => this.log(`updated customer w/ id=${customer._id}`)),
       catchError(this.handleError<any>('updateCustomer')))
   }
   
   addCustomer(customer: Customer): Observable<Customer> {
-    return this.http.post<Customer>(this.customersUrl, customer, this.httpOptions).pipe(
+    return this.http.post<Customer>(this.customersUrl, customer).pipe(
       tap((newCustomer: Customer) => this.log(`added customer w/ id=${customer._id}`)),
       catchError(this.handleError<Customer>('addCustomer'))
     );
