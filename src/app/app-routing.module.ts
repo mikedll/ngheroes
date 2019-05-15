@@ -6,6 +6,7 @@ import { CustomerComponent } from './customer/customer.component'
 import { RoomsComponent } from './rooms/rooms.component'
 import { DashboardComponent } from './dashboard/dashboard.component'
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
+import { NewReservationComponent } from './new-reservation/new-reservation.component';
 
 const routes: Routes = [
   { path: 'detail/:id', component: HeroDetailComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'heroes', component: HeroesComponent },
   { path: 'customers/:id', component: CustomerComponent },
   { path: 'customers', component: CustomersComponent },
+  { path: 'reservations/new', component: NewReservationComponent },
   { path: 'rooms', component: RoomsComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ]

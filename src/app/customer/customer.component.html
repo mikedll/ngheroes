@@ -14,4 +14,4 @@
 <br/>
 
 
-<button>Add Reservation</button>
+<a *ngIf="customer" [routerLink]="['/reservations/new']" [queryParams]="{cid: customer._id}">Add Reservation</a>

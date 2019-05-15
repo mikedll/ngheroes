@@ -1,0 +1,16 @@
+<h3 *ngIf="customer">New Reservation for {{customer.displayName()}}</h3>
+
+<form [formGroup]="reservationForm" (ngSubmit)="onSave()">
+
+  <input type="hidden" formControlName="customer" />
+  
+  <input type="text" formControlName="startAt" />
+  <input type="text" formControlName="endAt" />
+  
+  <select type="text" formControlName="room">
+    <option *ngFor="let room of rooms" >{{room.number}}</option>
+  </select>
+  
+  <button>Create Reservation</button>
+</form>
+

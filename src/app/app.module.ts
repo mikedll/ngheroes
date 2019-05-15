@@ -13,6 +13,7 @@ import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { CustomersComponent } from './customers/customers.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { CustomerComponent } from './customer/customer.component';
+import { NewReservationComponent } from './new-reservation/new-reservation.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CustomerComponent } from './customer/customer.component';
     HeroSearchComponent,
     CustomersComponent,
     RoomsComponent,
-    CustomerComponent
+    CustomerComponent,
+    NewReservationComponent
   ],
   imports: [
     BrowserModule,
