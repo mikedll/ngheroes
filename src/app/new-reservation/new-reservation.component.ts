@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { FormBuilder, Validators } from '@angular/forms'
 import { CustomerService } from '../customer.service'
 import { RoomService } from '../room.service'
+import { ReservationService } from '../reservation.service'
+import { Reservation } from '../reservation'
 import { Customer } from '../customer'
 import { Room } from '../room'
+
 
 declare let $: any;
 
@@ -28,7 +31,9 @@ export class NewReservationComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private customerService: CustomerService,
-              private roomService: RoomService) { }
+              private roomService: RoomService,
+              private reservationService: ReservationService,
+              private router: Router) { }
 
   ngOnInit() {
     this.getInitData()
@@ -44,7 +49,9 @@ export class NewReservationComponent implements OnInit {
   }
 
   onSave() {
-    console.log(this.reservationForm.value)
+    const reservation = new Reservation().deserialize(this.reservationForm.value)
+    this.reservationService.addReservation(reservation)
+      .subscribe(reservation => this.router.navigate(['/reservations', reservation._id]))
   }
   
   displayName() {

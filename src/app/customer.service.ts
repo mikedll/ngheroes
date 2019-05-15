@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
 import { Customer } from './customer'
@@ -25,7 +25,7 @@ export class CustomerService {
   
   addCustomer(customer: Customer): Observable<Customer> {
     return this.http.post<Customer>(this.customersUrl, customer).pipe(
-      tap((newCustomer: Customer) => this.log(`added customer w/ id=${customer._id}`)),
+      tap((newCustomer: Customer) => this.log(`added customer w/ id=${newCustomer._id}`)),
       catchError(this.handleError<Customer>('addCustomer'))
     );
   }
@@ -33,7 +33,7 @@ export class CustomerService {
   getCustomer(id: string): Observable<Customer> {
     return this.http.get<Customer>(this.customersUrl + '/' + id)
       .pipe(
-        tap(customer => this.log(`fetched customer having id=${customer._id}`)),
+        tap((customer: Customer) => this.log(`fetched customer having id=${customer._id}`)),
         catchError(this.handleError<Customer>('getCustomer')))
   }
   

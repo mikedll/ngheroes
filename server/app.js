@@ -160,4 +160,25 @@ app.post('/api/rooms', (req, res, next) => {
     .catch(err => next(err))
 })
 
+app.get('/api/reservations/:id', (req, res, next) => {
+  const id = req.params.id
+
+  Reservation
+    .findById(id)
+    .populate('customer')
+    .populate('room')
+    .then(reservation => {
+    res.json(reservation)
+  }).catch(err => next(`Reservation having id=${id} not found`))
+})
+
+app.post('/api/reservations', (req, res, next) => {
+  const reservation = new Reservation(req.body)
+
+  reservation
+    .save()
+    .then(reservation => res.json(reservation))
+    .catch(err => next(err))
+})
+
 module.exports = app

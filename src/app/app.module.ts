@@ -14,6 +14,7 @@ import { CustomersComponent } from './customers/customers.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { CustomerComponent } from './customer/customer.component';
 import { NewReservationComponent } from './new-reservation/new-reservation.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NewReservationComponent } from './new-reservation/new-reservation.compo
     CustomersComponent,
     RoomsComponent,
     CustomerComponent,
-    NewReservationComponent
+    NewReservationComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,

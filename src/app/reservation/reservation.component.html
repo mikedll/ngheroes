@@ -1,0 +1,9 @@
+<div *ngIf="reservation">
+  Reservation for {{reservation.customer.displayName()}}
+  <br/>
+  from {{reservation.startAt}} to {{reservation.endAt}}.
+  <br/>
+  in room {{reservation.room.number}}.
+  
+</div>
+
