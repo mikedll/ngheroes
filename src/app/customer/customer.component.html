@@ -1,0 +1,12 @@
+
+<h2 *ngIf="customer">{{customer.firstName}} {{customer.lastName}}</h2>
+
+<p>
+  Editing customer.
+</p>
+
+<form>
+  <input type="text" [formControl]="firstName"/>
+  <input type="text" name="lastName"/>
+  <button>Save</button>
+</form>

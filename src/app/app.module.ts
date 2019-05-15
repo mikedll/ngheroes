@@ -12,6 +12,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { CustomersComponent } from './customers/customers.component';
 import { RoomsComponent } from './rooms/rooms.component';
+import { CustomerComponent } from './customer/customer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RoomsComponent } from './rooms/rooms.component';
     DashboardComponent,
     HeroSearchComponent,
     CustomersComponent,
-    RoomsComponent
+    RoomsComponent,
+    CustomerComponent
   ],
   imports: [
     BrowserModule,

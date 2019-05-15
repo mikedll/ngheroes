@@ -114,6 +114,14 @@ app.get('/api/customers', (req, res, next) => {
   }).catch(err => next(err))
 })
 
+app.get('/api/customers/:id', (req, res, next) => {
+  const id = req.params.id
+
+  Customer.findById(id).then(customer => {
+    res.json(customer)
+  }).catch(err => next(`Customer having id=${id} not found`))
+})
+
 app.post('/api/customers', (req, res, next) => {
   const customer = new Customer(req.body)
 

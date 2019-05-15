@@ -32,6 +32,13 @@ export class CustomerService {
     );
   }
 
+  getCustomer(id: string): Observable<Customer> {
+    return this.http.get<Customer>(this.customersUrl + '/' + id)
+      .pipe(
+        tap(customer => this.log(`fetched customer having id=${customer._id}`)),
+        catchError(this.handleError<Customer>('getCustomer')))
+  }
+  
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(this.customersUrl)
       .pipe(
