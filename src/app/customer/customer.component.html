@@ -5,8 +5,8 @@
   Editing customer.
 </p>
 
-<form>
-  <input type="text" [formControl]="firstName"/>
-  <input type="text" name="lastName"/>
+<form [formGroup]="customerForm" (ngSubmit)="onSave()">
+  <input type="text" formControlName="firstName"/>
+  <input type="text" formControlName="lastName"/>
   <button>Save</button>
 </form>

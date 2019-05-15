@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms'
+import { FormBuilder } from '@angular/forms'
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { CustomerService } from '../customer.service'
@@ -13,19 +13,32 @@ export class CustomerComponent implements OnInit {
 
   customer: Customer
   
-  firstName = new FormControl('')
+  customerForm = this.fb.group({
+    firstName: [''],
+    lastName: ['']
+  })
   
-  constructor(private route: ActivatedRoute,
+  constructor(private fb: FormBuilder,
+              private route: ActivatedRoute,
               private customerService: CustomerService) { }
 
   ngOnInit() {
     this.getCustomer()    
   }
 
+  onSave() {
+  }
+  
   getCustomer() {
     const id = this.route.snapshot.paramMap.get('id')
     
     this.customerService.getCustomer(id)
-      .subscribe((customer) => this.customer = customer)    
+      .subscribe((customer) => {
+        this.customer = customer
+        this.customerForm.patchValue({
+          firstName: customer.firstName,
+          lastName: customer.lastName
+        })
+      })    
   }
 }
