@@ -46,7 +46,12 @@ export class NewReservationComponent implements OnInit {
   getInitData() {
     const cid = this.route.snapshot.queryParamMap.get('cid')
     this.customerService.getCustomer(cid)
-      .subscribe(customerJson => this.customer = new Customer().deserialize(customerJson))
+      .subscribe(customerJson => {
+        this.customer = new Customer().deserialize(customerJson)
+        this.reservationForm.patchValue({
+          customer: this.customer._id
+        })
+      })
 
     this.roomService.getRooms()
       .subscribe(rooms => this.rooms = rooms)    
