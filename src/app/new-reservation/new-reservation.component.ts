@@ -52,7 +52,15 @@ export class NewReservationComponent implements OnInit {
       })
 
     this.roomService.getRooms()
-      .subscribe(rooms => this.rooms = rooms)    
+      .subscribe(rooms => {
+        this.rooms = rooms
+
+        if(this.rooms.length > 0) {
+          this.reservationForm.patchValue({
+            room: this.rooms[0]._id
+          })
+        }
+      })    
   }
 
 }

@@ -8,9 +8,9 @@
   <input type="text" formControlName="endAt" />
   
   <select type="text" formControlName="room">
-    <option *ngFor="let room of rooms" >{{room.number}}</option>
+    <option *ngFor="let room of rooms" [value]="room._id">{{room.number}}</option>
   </select>
   
-  <button>Create Reservation</button>
+  <button [disabled]="!reservationForm.valid">Create Reservation</button>
 </form>
 
