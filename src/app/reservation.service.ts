@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
-import { Reservation, DeepReservation } from './reservation'
+import { Reservation } from './reservation'
 import { MessageService } from './message.service'
 
 @Injectable({
@@ -23,11 +23,11 @@ export class ReservationService {
     );
   }
 
-  getReservation(id: string): Observable<DeepReservation> {
-    return this.http.get<DeepReservation>(this.reservationsUrl + '/' + id)
+  getReservation(id: string): Observable<Reservation> {
+    return this.http.get<Reservation>(this.reservationsUrl + '/' + id)
       .pipe(
-        tap((reservation: DeepReservation) => this.log(`fetched deep reservation having id=${reservation._id}`)),
-        catchError(this.handleError<DeepReservation>('getReservation')))
+        tap((reservation: Reservation) => this.log(`fetched deep reservation having id=${reservation._id}`)),
+        catchError(this.handleError<Reservation>('getReservation')))
   }
  
   private handleError<T>(operation='operation', result?: T) {

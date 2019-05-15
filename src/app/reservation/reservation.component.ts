@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { ReservationService } from '../reservation.service'
-import { Reservation, DeepReservation } from '../reservation'
+import { Reservation } from '../reservation'
 
 @Component({
   selector: 'app-reservation',
@@ -10,7 +10,7 @@ import { Reservation, DeepReservation } from '../reservation'
 })
 export class ReservationComponent implements OnInit {
 
-  reservation: DeepReservation
+  reservation: Reservation
   
   constructor(private route: ActivatedRoute,
               private reservationService: ReservationService) { }
@@ -22,7 +22,7 @@ export class ReservationComponent implements OnInit {
   getReservation() {
     const id = this.route.snapshot.paramMap.get('id')
     this.reservationService.getReservation(id)
-      .subscribe(reservation => this.reservation = new DeepReservation().deserialize(reservation))
+      .subscribe(reservation => this.reservation = new Reservation().deserialize(reservation))
   }
 
 }
