@@ -32,7 +32,15 @@ export class NewReservationComponent implements OnInit {
 
   ngOnInit() {
     this.getInitData()
-    $('input[formcontrolname=startAt], input[formcontrolname=endAt]').datepicker()
+    const $this = this
+    $('input[formcontrolname=startAt], input[formcontrolname=endAt]').datepicker({
+      onSelect: function(dateText) {
+        $this.reservationForm.patchValue({
+          [$(this).attr('formControlName')]: dateText
+        })
+      },
+      dateFormat: 'yy-mm-dd'
+    })
   }
 
   onSave() {
