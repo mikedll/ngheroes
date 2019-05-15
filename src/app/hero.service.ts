@@ -12,16 +12,8 @@ export class HeroService {
 
   private heroesUrl = 'api/heroes'; // URL to web api
 
-  private httpOptions: {}
-
   constructor(private http: HttpClient,
               private messageService: MessageService) {
-    
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
     
   }
 
@@ -45,14 +37,14 @@ export class HeroService {
   }
 
   addHero(hero: Hero): Observable<Hero> {
-    return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
+    return this.http.post<Hero>(this.heroesUrl, hero).pipe(
       tap((newHero: Hero) => this.log(`added hero w/ id=${newHero._id}`)),
       catchError(this.handleError<Hero>('addHero'))
     );
   }
   
   updateHero(hero: Hero): Observable<any> {
-    return this.http.put(this.heroesUrl, hero, {headers: this.httpOptions, responseType: 'text'}).pipe(
+    return this.http.put(this.heroesUrl, hero, {responseType: 'text'}).pipe(
       tap(_ => this.log(`updated hero id=${hero._id}`)),
       catchError(this.handleError<any>('updateHero'))
     );
@@ -62,7 +54,7 @@ export class HeroService {
     const id = typeof hero === 'string' ? hero : hero._id
     const url = `${this.heroesUrl}/${id}`;
 
-    return this.http.delete<Hero>(url, this.httpOptions).pipe(
+    return this.http.delete<Hero>(url).pipe(
       tap(_ => this.log(`deleted hero id=${id}`)),
       catchError(this.handleError<Hero>('deleteHero'))
     );
