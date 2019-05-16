@@ -27,7 +27,7 @@ export class ReservationService {
   getReservation(id: string): Observable<Reservation> {
     return this.http.get<Reservation>(this.reservationsUrl + '/' + id)
       .pipe(
-        tap((reservation: Reservation) => this.log(`fetched deep reservation having id=${reservation._id}`)),
+        tap((reservation: Reservation) => this.log(`fetched reservation having id=${reservation._id}`)),
         catchError(this.handleError<Reservation>('getReservation')))
   }
 
