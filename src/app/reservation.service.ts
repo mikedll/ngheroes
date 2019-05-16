@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
 import { Reservation } from './reservation'
 import { MessageService } from './message.service'
+import { QueryResult } from './queryResult'
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,14 @@ export class ReservationService {
         tap((reservation: Reservation) => this.log(`fetched deep reservation having id=${reservation._id}`)),
         catchError(this.handleError<Reservation>('getReservation')))
   }
- 
+
+  getReservations(): Observable<QueryResult<Reservation>> {
+    return this.http.get<QueryResult<Reservation>>(this.reservationsUrl)
+      .pipe(
+        tap((reservations: QueryResult<Reservation>) => this.log(`fetched ${reservations.results.length} reservation(s)`)),
+        catchError(this.handleError<QueryResult<Reservation>>('getReservations', new QueryResult())))
+  }
+        
   private handleError<T>(operation='operation', result?: T) {
     return (error: any): Observable<T> => {
 

@@ -1,0 +1,8 @@
+<h2>Reservations</h2>
+
+<ul *ngIf="reservations.length">
+  <li *ngFor="let reservation of reservations">
+    {{reservation.customer.displayName()}} in {{reservation.room.number}} starting {{reservation.startAt}}
+    <a [routerLink]="['/reservations/', reservation._id]">View</a>
+  </li>
+</ul>

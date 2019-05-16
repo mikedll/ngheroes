@@ -181,4 +181,31 @@ app.post('/api/reservations', (req, res, next) => {
     .catch(err => next(err))
 })
 
+app.get('/api/reservations', async (req, res, next) => {
+  const PageSize = 10
+  
+  let pageIndex = 0
+  try {
+    pageIndex = req.query.page ? (Number(req.query.page) - 1) : 0
+  } catch(error) {
+    pageIndex = 0
+  }
+
+  try {
+    const total = await Reservation.countDocuments({})
+    const results = await Reservation.find({}, null, { limit: PageSize, skip: pageIndex * PageSize })
+          .populate('customer')
+          .populate('room')
+    const pages = Math.floor(total / PageSize) + ((total % PageSize > 0) ? 1 : 0)
+    res.json({
+      total: total,
+      pages: pages,
+      page: pageIndex + 1,
+      results: results
+    })
+  } catch(err) {
+    next(err)
+  }  
+})
+
 module.exports = app
