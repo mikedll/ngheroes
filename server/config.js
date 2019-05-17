@@ -14,7 +14,8 @@ const envVarsSchema = Joi.object({
     .default(27017),
   MONGO_DATABASE: Joi.string()
     .description("Mongo database name")
-    .default("stays5dev")
+    .default("stays5dev"),
+  MONGODB_URI: Joi.string()
 }).unknown().required()
 
 const { error, value: envVars } = Joi.validate(process.env, envVarsSchema);
